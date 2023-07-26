@@ -6,6 +6,7 @@
   <a class="btn btn-primary float" href="{% url 'core:create-task' %}">Create task</a>
     <ul>{% for task in tasks %}
       <h3>{{ task.title }}</h3>
+      <a class="btn btn-secondary" href="{% url 'core:update-task' pk=task.id %}">Update</a>
       <li>Description: {{ task.description }}</li>
       <li>Created_at: {{ task.created }}</li>
       <li>Deadline: {{ task.deadline }}</li>
