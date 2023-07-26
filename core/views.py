@@ -1,3 +1,5 @@
+import datetime
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
@@ -9,9 +11,11 @@ from core.models import Task
 
 def index(request):
     tasks = Task.objects.all()
+    today = datetime.date.today()
 
     context = {
-        "tasks": tasks
+        "tasks": tasks,
+        "today": today
     }
     return render(request, "core/index.html", context)
 
