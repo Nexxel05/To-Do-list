@@ -2,25 +2,36 @@
 
 {% block content %}
   <body>
-  <h1>TODO list</h1>
-  <a class="btn btn-primary float" href="{% url 'core:create-task' %}">Create task</a>
-    <ul>{% for task in tasks %}
-      <h3>{{ task.title }}</h3>
-      <li>Description: {{ task.description }}</li>
-      <li>Created_at: {{ task.created }}</li>
-      <li>Deadline: {{ task.deadline }}</li>
-      <li>Status:
-        {% if task.is_completed %}
-        <strong style="color:green">Done</strong>
-          <a class="btn btn-secondary float" href="{% url 'core:change-status-task' pk=task.id%}">Undo</a>
-        {% else %}
-        <strong style="color:red">Not Done</strong>
-          <a class="btn btn-success float" href="{% url 'core:change-status-task' pk=task.id%}">Complete</a>
-        {% endif %}
-      </li>
-      <a class="btn btn-secondary" href="{% url 'core:update-task' pk=task.id %}">Update</a>
-      <a class="btn btn-danger" href="{% url 'core:delete-task' pk=task.id %}">Delete</a>
+  <h1 style="text-align: center">My To-Do list</h1>
+  <a class="btn btn-info float" href="{% url 'core:create-task' %}">Create task</a>
+
+    {% for task in tasks %}
+      <div class="task">
+
+        <h3>{{ task.title }}</h3>
+        <li>Description: {{ task.description }}</li>
+        <li>Created: {{ task.created }}</li>
+        <li>Status:
+          {% if task.is_completed %}
+            <strong style="color:green">Done</strong>
+            <a class="btn btn-secondary" style="float: right" href="{% url 'core:change-status-task' pk=task.id%}">Undo</a>
+          {% else %}
+            <strong style="color:red">Not Done</strong>
+            <li>Deadline:
+              {% if task.deadline == today %}
+                <strong style="color:red">TODAY!!!</strong>
+              {% elif task.deadline < today %}
+                <strong style="color:red">{{ task.deadline }}</strong>
+              {% else %}
+                {{ task.deadline }}
+              {% endif %}
+              <a class="btn btn-success" style="float: right" href="{% url 'core:change-status-task' pk=task.id%}">Complete</a>
+            </li>
+          {% endif %}
+        </li>
+        <a class="btn btn-primary" href="{% url 'core:update-task' pk=task.id %}">Update</a>
+        <a class="btn btn-danger" href="{% url 'core:delete-task' pk=task.id %}">Delete</a>
+      </div>
     {% endfor %}
-    </ul>
   </body>
 {% endblock %}
